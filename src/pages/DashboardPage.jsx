@@ -109,23 +109,29 @@ export function DashboardPage() {
 
   useEffect(() => {
     if (!loading && containerRef.current) {
-      gsap.from(".stat-card", {
-        y: 30,
-        opacity: 0,
-        duration: 0.6,
-        stagger: 0.1,
-        ease: "power3.out",
-      });
+      let ctx = gsap.context(() => {
+        gsap.from(".stat-card", {
+          y: 30,
+          opacity: 0,
+          duration: 0.6,
+          stagger: 0.1,
+          ease: "power3.out",
+        });
+      }, containerRef);
+      return () => ctx.revert();
     }
   }, [loading]);
 
   useEffect(() => {
     if (!loading && listRef.current) {
-      gsap.fromTo(
-        ".report-item",
-        { y: 20, opacity: 0 },
-        { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: "power2.out" }
-      );
+      let ctx = gsap.context(() => {
+        gsap.fromTo(
+          ".report-item",
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, stagger: 0.05, ease: "power2.out" }
+        );
+      }, listRef);
+      return () => ctx.revert();
     }
   }, [loading, filter]);
 

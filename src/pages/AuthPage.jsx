@@ -22,14 +22,18 @@ export function AuthPage() {
 
   useEffect(() => {
     // Initial entrance animation
-    if (containerRef.current) {
+    if (!containerRef.current) return;
+    
+    let ctx = gsap.context(() => {
       gsap.from(containerRef.current, {
         y: 30,
         opacity: 0,
         duration: 0.8,
         ease: "power3.out"
       });
-    }
+    }, containerRef);
+    
+    return () => ctx.revert();
   }, []);
 
   const [form, setForm] = useState({
