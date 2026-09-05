@@ -4,6 +4,7 @@ import gsap from "gsap";
 import { ArrowLeft, Mail, Lock, User, Loader } from "lucide-react";
 import { useLanguage } from "../contexts/LanguageContext";
 import { Button } from "../components/ui/button";
+import { GoogleLogin } from "@react-oauth/google";
 
 export function AuthPage() {
   const [isLogin, setIsLogin] = useState(true);
@@ -87,6 +88,39 @@ export function AuthPage() {
       setLoading(false);
     }
   };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    try {
+      setLoading(true);
+      const res = await fetch(`http://localhost:5000/api/auth/google`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ credential: credentialResponse.credential }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("userName", data.name);
+        if (data.avatar) localStorage.setItem("userAvatar", data.avatar);
+        navigate("/dashboard");
+      } else {
+        alert(data.message || "Google authentication failed");
+      }
+    } catch (error) {
+      console.error("Google auth error:", error);
+      alert("Could not connect to authentication server. Ensure backend is running.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    console.error("Google Login Failed");
+    alert("Google Sign In was unsuccessful. Please try again.");
+  };
+
 
   return (
     <div className="min-h-screen bg-warm-50 flex flex-col relative overflow-hidden text-navy-900 selection:bg-green-500/20 selection:text-green-900">
@@ -223,11 +257,16 @@ export function AuthPage() {
               <p className="text-[10px] text-center text-navy-400 uppercase tracking-widest font-bold">
                 {t("auth.or")}
               </p>
-              <div className="flex flex-col gap-3">
-                <button type="button" onClick={() => alert("Google Login ke liye Google Cloud Console se Client ID chahiye hoga. Abhi ke liye normal Email/Password se signup karein!")} className="flex items-center justify-center gap-2 py-3 rounded-xl bg-white hover:bg-navy-50 text-sm font-bold text-navy-700 transition-colors border border-navy-200 shadow-sm w-full">
-                  <div className="w-4 h-4 rounded-full bg-gradient-to-tr from-blue-500 to-red-500" />
-                  Continue with Google
-                </button>
+              <div className="flex justify-center w-full min-h-[44px]">
+                <GoogleLogin
+                  onSuccess={handleGoogleSuccess}
+                  onError={handleGoogleError}
+                  theme="outline"
+                  size="large"
+                  shape="pill"
+                  width="380"
+                  text={isLogin ? "signin_with" : "signup_with"}
+                />
               </div>
             </div>
           </div>

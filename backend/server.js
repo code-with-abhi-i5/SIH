@@ -22,18 +22,19 @@ app.get('/', (req, res) => {
 
 const PORT = process.env.PORT || 5000;
 
+// Start Server
+app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
+
 // Connect to MongoDB
 if (process.env.MONGO_URI) {
   mongoose.connect(process.env.MONGO_URI)
     .then(() => {
-      console.log('MongoDB Connected');
-      app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+      console.log('✅ MongoDB Connected successfully');
     })
     .catch(err => {
-      console.error('MongoDB connection error:', err);
-      process.exit(1);
+      console.error('❌ MongoDB connection error: Check your MongoDB Atlas Network Access IP Whitelist (0.0.0.0/0).');
+      console.error('Error detail:', err.message);
     });
 } else {
-  console.log('No MONGO_URI provided. Running server without database connection.');
-  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  console.log('⚠️ No MONGO_URI provided. Running server without database connection.');
 }
