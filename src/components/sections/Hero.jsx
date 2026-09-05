@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, MapPin, Sparkles } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { JharkhandMap } from "@/components/visuals/JharkhandMap";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
@@ -193,20 +194,22 @@ export function Hero() {
               variants={itemVariants}
               className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4"
             >
-              <Button
-                variant="primary"
-                size="lg"
-                className="group relative shadow-[0_0_40px_-10px_rgba(232,133,12,0.4)] hover:shadow-[0_0_60px_-15px_rgba(232,133,12,0.6)] overflow-hidden transition-shadow duration-500"
-              >
-                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out" />
-                <span className="relative flex items-center gap-2">
-                  {t("hero.btn.report")}
-                  <ArrowRight
-                    size={18}
-                    className="transition-transform group-hover:translate-x-1"
-                  />
-                </span>
-              </Button>
+              <Link to="/report">
+                <Button
+                  variant="primary"
+                  size="lg"
+                  className="group relative shadow-[0_0_40px_-10px_rgba(232,133,12,0.4)] hover:shadow-[0_0_60px_-15px_rgba(232,133,12,0.6)] overflow-hidden transition-shadow duration-500"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/30 to-white/0 -translate-x-full group-hover:translate-x-[200%] transition-transform duration-1000 ease-in-out" />
+                  <span className="relative flex items-center gap-2">
+                    {t("hero.btn.report")}
+                    <ArrowRight
+                      size={18}
+                      className="transition-transform group-hover:translate-x-1"
+                    />
+                  </span>
+                </Button>
+              </Link>
               <Button variant="secondary" size="lg" className="hover:bg-white/60 transition-colors">
                 {t("hero.btn.explore")}
               </Button>

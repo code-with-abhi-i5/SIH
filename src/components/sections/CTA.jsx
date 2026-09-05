@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { JharkhandMap } from "@/components/visuals/JharkhandMap";
 import { useLanguage } from "../../contexts/LanguageContext";
@@ -45,13 +46,15 @@ export function CTA() {
             transition={{ delay: 0.2 }}
             className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
-            <Button variant="saffron" size="lg" className="group">
-              {t("hero.btn.report")}
-              <ArrowRight
-                size={18}
-                className="transition-transform group-hover:translate-x-0.5"
-              />
-            </Button>
+            <Link to="/report">
+              <Button variant="saffron" size="lg" className="group">
+                {t("hero.btn.report")}
+                <ArrowRight
+                  size={18}
+                  className="transition-transform group-hover:translate-x-0.5"
+                />
+              </Button>
+            </Link>
             <Button
               variant="outline"
               size="lg"

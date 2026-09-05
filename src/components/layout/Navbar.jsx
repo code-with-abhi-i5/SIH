@@ -97,9 +97,11 @@ export function Navbar() {
               </Button>
             </Link>
           )}
-          <Button variant="primary" size="md">
-            {t("hero.btn.report")}
-          </Button>
+          <Link to="/report">
+            <Button variant="primary" size="md">
+              {t("hero.btn.report")}
+            </Button>
+          </Link>
         </div>
 
         {/* Mobile controls */}
@@ -182,9 +184,11 @@ export function Navbar() {
                     </Button>
                   </Link>
                 )}
-                <Button variant="primary" className="w-full" size="lg">
-                  {t("hero.btn.report")}
-                </Button>
+                <Link to="/report" className="w-full" onClick={() => setMobileOpen(false)}>
+                  <Button variant="primary" className="w-full" size="lg">
+                    {t("hero.btn.report")}
+                  </Button>
+                </Link>
               </div>
             </motion.div>
           </>

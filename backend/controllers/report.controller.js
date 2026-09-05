@@ -5,7 +5,7 @@ const Report = require('../models/report.model');
 // @access  Private
 exports.createReport = async (req, res) => {
   try {
-    const { title, description, category, severity, location, imageUrl } = req.body;
+    const { title, description, category, severity, location, imageUrl, contactDetails } = req.body;
 
     const report = await Report.create({
       title,
@@ -13,6 +13,7 @@ exports.createReport = async (req, res) => {
       category,
       severity,
       location,
+      contactDetails,
       imageUrl,
       userId: req.user._id,
     });

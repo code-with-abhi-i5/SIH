@@ -35,6 +35,11 @@ const ReportSchema = new mongoose.Schema({
     lat: { type: Number, default: null },
     lng: { type: Number, default: null },
   },
+  contactDetails: {
+    name: { type: String, required: true },
+    phone: { type: String, required: true },
+    email: { type: String, default: '' },
+  },
   imageUrl: {
     type: String,
     default: '',

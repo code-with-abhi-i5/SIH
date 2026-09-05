@@ -49,6 +49,9 @@ export function ReportPage() {
     severity: "Medium",
     address: "",
     pincode: "",
+    name: "",
+    phone: "",
+    email: "",
     image: null,
     imagePreview: null,
   });
@@ -87,6 +90,11 @@ export function ReportPage() {
             address: form.address,
             pincode: form.pincode,
           },
+          contactDetails: {
+            name: form.name,
+            phone: form.phone,
+            email: form.email,
+          }
         }),
       });
 
@@ -104,7 +112,8 @@ export function ReportPage() {
   const canNext = () => {
     if (step === 1) return form.category !== "";
     if (step === 2) return form.title.trim() !== "" && form.description.trim() !== "";
-    if (step === 3) return true;
+    if (step === 3) return form.address.trim() !== "";
+    if (step === 4) return form.name.trim() !== "" && form.phone.trim() !== "";
     return true;
   };
 
@@ -391,8 +400,58 @@ export function ReportPage() {
                 />
               </div>
 
+            </motion.div>
+          )}
+
+          {/* Step 4: Contact Details & Summary */}
+          {step === 4 && (
+            <motion.div
+              key="step4"
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -50 }}
+              className="space-y-6"
+            >
+              <div>
+                <h2 className="text-2xl font-extrabold mb-2">Contact Details</h2>
+                <p className="text-sm text-navy-400">How can authorities reach you regarding this report?</p>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-navy-300 uppercase tracking-wider">Full Name *</label>
+                <input
+                  type="text"
+                  value={form.name}
+                  onChange={(e) => update("name", e.target.value)}
+                  placeholder="e.g. Rahul Sharma"
+                  className="w-full bg-navy-900/50 border border-navy-700 rounded-xl py-3.5 px-4 text-white placeholder:text-navy-600 focus:outline-none focus:ring-2 focus:ring-saffron-500/50 focus:border-saffron-500 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-navy-300 uppercase tracking-wider">Phone Number *</label>
+                <input
+                  type="tel"
+                  value={form.phone}
+                  onChange={(e) => update("phone", e.target.value)}
+                  placeholder="e.g. 9876543210"
+                  className="w-full bg-navy-900/50 border border-navy-700 rounded-xl py-3.5 px-4 text-white placeholder:text-navy-600 focus:outline-none focus:ring-2 focus:ring-saffron-500/50 focus:border-saffron-500 transition-all"
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-xs font-semibold text-navy-300 uppercase tracking-wider">Email (Optional)</label>
+                <input
+                  type="email"
+                  value={form.email}
+                  onChange={(e) => update("email", e.target.value)}
+                  placeholder="e.g. rahul@example.com"
+                  className="w-full bg-navy-900/50 border border-navy-700 rounded-xl py-3.5 px-4 text-white placeholder:text-navy-600 focus:outline-none focus:ring-2 focus:ring-saffron-500/50 focus:border-saffron-500 transition-all"
+                />
+              </div>
+
               {/* Summary */}
-              <div className="bg-navy-900/60 border border-navy-700/50 rounded-2xl p-5 space-y-3">
+              <div className="bg-navy-900/60 border border-navy-700/50 rounded-2xl p-5 space-y-3 mt-8">
                 <h3 className="text-xs font-bold uppercase tracking-wider text-navy-400">Summary</h3>
                 <div className="grid grid-cols-2 gap-3 text-sm">
                   <div>
@@ -425,7 +484,7 @@ export function ReportPage() {
               Back
             </button>
           )}
-          {step < 3 ? (
+          {step < 4 ? (
             <button
               onClick={() => canNext() && setStep(step + 1)}
               disabled={!canNext()}
@@ -440,7 +499,12 @@ export function ReportPage() {
           ) : (
             <button
               onClick={handleSubmit}
-              className="flex-1 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20 hover:shadow-green-500/40 transition-all flex items-center justify-center gap-2"
+              disabled={!canNext()}
+              className={`flex-1 py-3.5 rounded-xl font-bold text-sm transition-all flex items-center justify-center gap-2 ${
+                canNext()
+                  ? "bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg shadow-green-500/20 hover:shadow-green-500/40"
+                  : "bg-navy-800 text-navy-600 cursor-not-allowed"
+              }`}
             >
               <Send size={16} />
               Submit Report
