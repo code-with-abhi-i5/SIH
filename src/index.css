@@ -1,0 +1,127 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+  --font-display: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+
+  --color-navy-950: #0a0f1e;
+  --color-navy-900: #0f1729;
+  --color-navy-800: #152238;
+  --color-navy-700: #1e3050;
+  --color-navy-600: #2a4068;
+  --color-navy-500: #3d5a80;
+  --color-navy-400: #5a7a9e;
+  --color-navy-300: #8fa8c4;
+  --color-navy-200: #c4d4e8;
+  --color-navy-100: #e8eef5;
+  --color-navy-50: #f4f7fb;
+
+  --color-saffron-500: #e8850c;
+  --color-saffron-400: #f59e0b;
+  --color-saffron-300: #fbbf24;
+  --color-saffron-100: #fef3c7;
+
+  --color-green-600: #15803d;
+  --color-green-500: #16a34a;
+  --color-green-400: #22c55e;
+  --color-green-100: #dcfce7;
+
+  --color-warm-50: #faf9f7;
+  --color-warm-100: #f5f3ef;
+  --color-warm-200: #ebe7e0;
+
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.25rem;
+  --radius-2xl: 1.5rem;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+
+  body {
+    @apply bg-warm-50 text-navy-900 font-sans antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  ::selection {
+    @apply bg-navy-900/10 text-navy-900;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-navy-600;
+  }
+
+  @keyframes blob {
+    0% { transform: translate(0px, 0px) scale(1); }
+    33% { transform: translate(30px, -50px) scale(1.1); }
+    66% { transform: translate(-20px, 20px) scale(0.9); }
+    100% { transform: translate(0px, 0px) scale(1); }
+  }
+
+  @keyframes grid-scroll {
+    0% { background-position: 0 0; }
+    100% { background-position: 48px 48px; }
+  }
+}
+
+@layer utilities {
+  .animate-blob {
+    animation: blob 10s infinite alternate ease-in-out;
+  }
+  .animate-grid {
+    animation: grid-scroll 20s linear infinite;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .section-padding {
+    @apply px-4 sm:px-6 lg:px-8 py-20 md:py-28 lg:py-32;
+  }
+
+  .container-narrow {
+    @apply mx-auto max-w-7xl;
+  }
+
+  .grid-texture {
+    background-image:
+      linear-gradient(rgba(15, 23, 41, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(15, 23, 41, 0.03) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+
+  .hero-gradient {
+    background:
+      radial-gradient(ellipse 80% 60% at 70% 20%, rgba(30, 48, 80, 0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 60% 50% at 20% 80%, rgba(232, 133, 12, 0.04) 0%, transparent 50%),
+      radial-gradient(ellipse 50% 40% at 90% 90%, rgba(22, 163, 74, 0.04) 0%, transparent 50%),
+      linear-gradient(180deg, #faf9f7 0%, #f4f7fb 50%, #faf9f7 100%);
+  }
+
+  .glass-card {
+    @apply bg-white/80 backdrop-blur-md border border-navy-100/80 shadow-lg shadow-navy-900/5;
+  }
+
+  .glass-card-dark {
+    @apply bg-navy-900/90 backdrop-blur-md border border-navy-700/50 shadow-xl shadow-navy-950/20;
+  }
+}
