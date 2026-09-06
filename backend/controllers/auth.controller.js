@@ -2,7 +2,7 @@ const User = require('../models/user.model');
 const jwt = require('jsonwebtoken');
 const { OAuth2Client } = require('google-auth-library');
 
-const CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || '24805802618-bj9bo2gnahqs5ahm4631erptc6d7jf2m.apps.googleusercontent.com').trim();
+const CLIENT_ID = (process.env.GOOGLE_CLIENT_ID || '').trim();
 const googleClient = new OAuth2Client(CLIENT_ID);
 
 // Generate JWT

@@ -22,6 +22,8 @@ import {
   Leaf,
   Wheat,
   LogOut,
+  ExternalLink,
+  Camera,
 } from "lucide-react";
 
 const CATEGORY_ICONS = {
@@ -319,6 +321,13 @@ export function DashboardPage() {
                       </div>
                     </div>
 
+                    {/* Attached Photo Thumbnail */}
+                    {report.imageUrl && (
+                      <div className="hidden md:block w-11 h-11 rounded-xl overflow-hidden border border-navy-200 shrink-0 shadow-2xs">
+                        <img src={report.imageUrl} alt="Thumbnail" className="w-full h-full object-cover" />
+                      </div>
+                    )}
+
                     {/* Status Badge */}
                     <div className="hidden sm:flex items-center gap-2 px-3.5 py-1.5 rounded-full border text-sm font-bold shrink-0 bg-white">
                       <div className={`w-2 h-2 rounded-full ${statusConf.dotColor}`} />
@@ -361,6 +370,17 @@ export function DashboardPage() {
                               <MapPin size={16} className="text-red-500 shrink-0 mt-0.5" />
                               <span className="line-clamp-2">{report.location?.address || "Not provided"}</span>
                             </p>
+                            {report.location?.lat && report.location?.lng && (
+                              <a
+                                href={`https://www.google.com/maps?q=${report.location.lat},${report.location.lng}`}
+                                target="_blank"
+                                rel="noreferrer"
+                                className="mt-2.5 inline-flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 hover:text-emerald-900 bg-emerald-50 hover:bg-emerald-100 px-2.5 py-1 rounded-lg border border-emerald-200 transition-all shadow-2xs"
+                              >
+                                <ExternalLink size={11} />
+                                View on Map ({report.location.lat.toFixed(4)}°, {report.location.lng.toFixed(4)}°)
+                              </a>
+                            )}
                           </div>
                           <div className="bg-white rounded-xl p-4 border border-navy-100 shadow-sm">
                             <p className="text-xs font-bold text-navy-400 uppercase tracking-wider mb-1">Pincode</p>
@@ -387,6 +407,27 @@ export function DashboardPage() {
                                     <span className="font-semibold text-navy-900">{report.contactDetails.email}</span>
                                   </p>
                                 )}
+                              </div>
+                            </div>
+                          )}
+
+                          {/* Attached Photo / Evidence */}
+                          {report.imageUrl && (
+                            <div className="sm:col-span-2 lg:col-span-3 bg-white rounded-xl p-4 border border-navy-100 shadow-sm">
+                              <p className="text-xs font-bold text-navy-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                                <Camera size={14} className="text-emerald-600" />
+                                Attached Site Photograph / Evidence
+                              </p>
+                              <div className="relative group rounded-xl overflow-hidden border border-navy-100 max-w-sm sm:max-w-md bg-navy-50">
+                                <img
+                                  src={report.imageUrl}
+                                  alt="Report Evidence"
+                                  className="w-full h-48 sm:h-60 object-cover rounded-xl transition-transform duration-300 group-hover:scale-[1.02] cursor-pointer"
+                                  onClick={() => window.open(report.imageUrl, '_blank')}
+                                />
+                                <div className="absolute bottom-2.5 right-2.5 bg-navy-950/80 backdrop-blur-xs text-white text-[10px] font-semibold px-2.5 py-1 rounded-lg pointer-events-none shadow-sm">
+                                  Click to view full photo
+                                </div>
                               </div>
                             </div>
                           )}
