@@ -1,4 +1,5 @@
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
+import gsap from "gsap";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -7,8 +8,25 @@ import { useLanguage } from "../../contexts/LanguageContext";
 
 export function CTA() {
   const { t } = useLanguage();
+  const ctaRef = useRef(null);
+
+  useEffect(() => {
+    if (!ctaRef.current) return;
+    const ctx = gsap.context(() => {
+      gsap.from(".cta-anim-item", {
+        y: 20,
+        opacity: 0,
+        stagger: 0.12,
+        duration: 0.6,
+        ease: "power2.out",
+      });
+    }, ctaRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <section className="relative overflow-hidden">
+    <section ref={ctaRef} className="relative overflow-hidden">
       <div className="bg-navy-950 text-white section-padding relative">
         <div className="absolute inset-0 opacity-20" aria-hidden="true">
           <JharkhandMap
@@ -21,50 +39,37 @@ export function CTA() {
         <div className="absolute inset-0 grid-texture opacity-5" aria-hidden="true" />
 
         <div className="container-narrow mx-auto relative text-center">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-balance max-w-2xl mx-auto"
-          >
+          <h2 className="cta-anim-item text-3xl sm:text-4xl md:text-5xl font-extrabold leading-tight text-balance max-w-2xl mx-auto">
             {t("cta.title")}
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
-            className="mt-4 text-base sm:text-lg text-navy-300 max-w-lg mx-auto"
-          >
+          </h2>
+          <p className="cta-anim-item mt-4 text-base sm:text-lg text-navy-300 max-w-lg mx-auto">
             {t("cta.desc")}
-          </motion.p>
+          </p>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 }}
-            className="mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
-          >
+          <div className="cta-anim-item mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
             <Link to="/report">
-              <Button variant="saffron" size="lg" className="group">
+              <Button size="lg" className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 text-white group shadow-xl">
                 {t("hero.btn.report")}
                 <ArrowRight
                   size={18}
-                  className="transition-transform group-hover:translate-x-0.5"
+                  className="transition-transform group-hover:translate-x-0.5 ml-1.5"
                 />
               </Button>
             </Link>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white/30 text-white hover:bg-white hover:text-navy-900"
-            >
-              {t("hero.btn.explore")}
-            </Button>
-          </motion.div>
+            <Link to="/challenges">
+              <Button
+                variant="outline"
+                size="lg"
+                className="border-white/30 text-white hover:bg-white hover:text-navy-900"
+              >
+                {t("hero.btn.explore")}
+              </Button>
+            </Link>
+          </div>
         </div>
       </div>
     </section>
   );
 }
+
+export default CTA;
